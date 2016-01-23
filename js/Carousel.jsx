@@ -18,7 +18,8 @@ var Carousel = React.createClass({
 
     getInitialState: function() {
         return {
-            hiddenLabels: []
+            hiddenLabels: [],
+            items: []
         };
     },
 
@@ -38,15 +39,37 @@ var Carousel = React.createClass({
         });
     },
 
+    sortAsc: function(label) {
+    },
+
+    sortDesc: function(label) {
+    },
+
+    _sort: function(comp) {
+
+    },
+
+    _getItems: function() {
+        return this.state.items ? this.state.items : this.props.items;
+    },
+
+    componentWillMount: function() {
+        this.setState({
+            items: this.props.items
+        });
+    },
+
     render: function() {
         return (
             <div className="carousel">
                 <LabelPane
                     ref="labelPane"
                     labels={this._getLabels()}
-                    addHiddenLabel={this.addHiddenLabel} />
+                    addHiddenLabel={this.addHiddenLabel}
+                    sortAsc={this.sortAsc}
+                    sortDesc={this.sortDesc} />
                 <ItemsScrollPane
-                    items={this.props.items}
+                    items={this._getItems()}
                     hiddenLabels={this.state.hiddenLabels} />
             </div>
         );

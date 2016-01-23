@@ -21,7 +21,8 @@ h1 {
 }
 
 .carousel {
-    background-color: #002b36;
+    //background-color: #002b36;
+    background-color: #002028;
     width: 1280px;
     //border-top: 1px solid #2aa198;
     //border-bottom: 1px solid #2aa198;
@@ -30,6 +31,7 @@ h1 {
 .itemsScrollPane {
     overflow: auto;
     white-space: nowrap;
+    padding-right: 6px;
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
@@ -42,15 +44,16 @@ h1 {
     float: left;
     background-color: #073642;
     color: #2aa198;
-    padding: 18px;
+    padding: 19px;
 }
 
 .itemPane {
+    background-color: #002b36;
     display: inline-block;
     border: 1px solid #678CB1;
     border-radius: 12px;
     padding: 12px;
-    margin: 6px;
+    margin: 6px 0px 6px 6px;
 }
 
 .row {

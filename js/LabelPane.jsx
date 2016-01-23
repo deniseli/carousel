@@ -8,14 +8,21 @@ var LabelPane = React.createClass({
 
     propTypes: {
         labels: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-        addHiddenLabel: React.PropTypes.func.isRequired
+        addHiddenLabel: React.PropTypes.func.isRequired,
+        sortAsc: React.PropTypes.func.isRequired,
+        sortDesc: React.PropTypes.func.isRequired
     },
 
     _genLabelElems: function() {
-        var hlFunc = this ? this.props.addHiddenLabel : function() {};
+        var func = function() {}
+        var hlFunc = this ? this.props.addHiddenLabel : func;
+        var sortAsc = this ? this.props.sortAsc : func;
+        var sortDesc = this ? this.props.sortDesc : func;
         return this.props.labels.map(function(label, i) {
             return <Label ref={label} key={i} label={label}
-                          addHiddenLabel={hlFunc} />;
+                          addHiddenLabel={hlFunc}
+                          sortAsc={sortAsc.bind(this, label)}
+                          sortDesc={sortDesc.bind(this, label)} />;
         });
     },
 

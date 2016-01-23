@@ -6,7 +6,9 @@ var Label = React.createClass({
 
     propTypes: {
         label: React.PropTypes.string.isRequired,
-        addHiddenLabel: React.PropTypes.func.isRequired
+        addHiddenLabel: React.PropTypes.func.isRequired,
+        sortAsc: React.PropTypes.func.isRequired,
+        sortDesc: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
@@ -41,10 +43,10 @@ var Label = React.createClass({
                       onClick={this._onClick}>
                     {this.props.label}
                 </span>
-                <span className="sortToggle">
+                <span ref="sortDesc" className="sortToggle" onClick={this.props.sortDesc}>
                     <i className="fa fa-caret-up"></i>
                 </span>
-                <span className="sortToggle">
+                <span ref="sortAsc" className="sortToggle" onClick={this.props.sortAsc}>
                     <i className="fa fa-caret-down"></i>
                 </span>
             </div>
