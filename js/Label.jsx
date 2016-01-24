@@ -2,6 +2,10 @@
 
 var React = require("react");
 
+var NONE = 0;
+var ASC = 1;
+var DESC = 2;
+
 var Label = React.createClass({
 
     propTypes: {
@@ -13,40 +17,62 @@ var Label = React.createClass({
 
     getInitialState: function() {
         return {
-            highlighted: false,
+            highlightedLabel: false,
+            highlightedToggle: NONE,
             hidden: false
         };
     },
 
-    _onMouseOver: function() {
-        this.setState({highlighted: true});
+    _onMouseOverLabel: function() {
+        this.setState({highlightedLabel: true});
     },
 
-    _onMouseOut: function() {
-        this.setState({highlighted: false});
+    _onMouseOutLabel: function() {
+        this.setState({highlightedLabel: false});
     },
 
-    _onClick: function() {
+    _hide: function() {
         this.setState({hidden: true});
         this.props.addHiddenLabel(this.props.label);
     },
 
-    _getClassNames: function() {
-        return "label row" + (this.state.highlighted ? " highlightedLabel" : "");
+    _onMouseOverAscToggle: function() {
+        this.setState({highlightedToggle: ASC});
+    },
+
+    _onMouseOverDescToggle: function() {
+        this.setState({highlightedToggle: DESC});
+    },
+
+    _onMouseOutSortToggle: function() {
+        this.setState({highlightedToggle: NONE});
+    },
+
+    _getToggleClassNames: function(toggle) {
+        return "sortToggle" + (this.state.highlightedToggle === toggle ? " highlightedToggle" : "");
     },
 
     render: function() {
         return this.state.hidden ? (<div/>) : (
-            <div className={this._getClassNames()}>
-                <span onMouseOver={this._onMouseOver}
-                      onMouseOut={this._onMouseOut}
-                      onClick={this._onClick}>
+            <div className="label row">
+                <span className={this.state.highlightedLabel ? " highlightedLabel" : ""}
+                      onMouseOver={this._onMouseOverLabel}
+                      onMouseOut={this._onMouseOutLabel}
+                      onClick={this._hide}>
                     {this.props.label}
                 </span>
-                <span ref="sortDesc" className="sortToggle" onClick={this.props.sortDesc}>
+                <span ref="sortDesc"
+                      className={this._getToggleClassNames(DESC)}
+                      onMouseOver={this._onMouseOverDescToggle}
+                      onMouseOut={this._onMouseOutSortToggle}
+                      onClick={this.props.sortDesc}>
                     <i className="fa fa-caret-up"></i>
                 </span>
-                <span ref="sortAsc" className="sortToggle" onClick={this.props.sortAsc}>
+                <span ref="sortAsc"
+                      className={this._getToggleClassNames(ASC)}
+                      onMouseOver={this._onMouseOverAscToggle}
+                      onMouseOut={this._onMouseOutSortToggle}
+                      onClick={this.props.sortAsc}>
                     <i className="fa fa-caret-down"></i>
                 </span>
             </div>

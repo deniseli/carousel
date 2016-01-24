@@ -82,6 +82,10 @@ h1 {
     color: #d33682;
 }
 
+.highlightedToggle {
+    color: #ffffff;
+}
+
 .highlightedItem {
     background-color: #073642;
 }

@@ -21,8 +21,8 @@ var LabelPane = React.createClass({
         return this.props.labels.map(function(label, i) {
             return <Label ref={label} key={i} label={label}
                           addHiddenLabel={hlFunc}
-                          sortAsc={sortAsc.bind(this, label)}
-                          sortDesc={sortDesc.bind(this, label)} />;
+                          sortAsc={sortAsc.bind(null, label)}
+                          sortDesc={sortDesc.bind(null, label)} />;
         });
     },
 
