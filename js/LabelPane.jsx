@@ -3,6 +3,7 @@
 var React = require("react");
 
 var Label = require("./Label.jsx");
+var ToggleConsts = require("./ToggleConsts.js");
 
 var LabelPane = React.createClass({
 
@@ -13,16 +14,24 @@ var LabelPane = React.createClass({
         sortDesc: React.PropTypes.func.isRequired
     },
 
+    clearAllSelectedSortToggles: function() {
+        this.props.labels.forEach(function(label) {
+            this.refs[label].setState({selectedToggle: ToggleConsts.NONE});
+        }.bind(this));
+    },
+
     _genLabelElems: function() {
         var func = function() {}
         var hlFunc = this ? this.props.addHiddenLabel : func;
         var sortAsc = this ? this.props.sortAsc : func;
         var sortDesc = this ? this.props.sortDesc : func;
+        var clearTogs = this ? this.clearAllSelectedSortToggles : func;
         return this.props.labels.map(function(label, i) {
             return <Label ref={label} key={i} label={label}
                           addHiddenLabel={hlFunc}
                           sortAsc={sortAsc.bind(null, label)}
-                          sortDesc={sortDesc.bind(null, label)} />;
+                          sortDesc={sortDesc.bind(null, label)}
+                          clearAllSelectedSortToggles={clearTogs} />;
         });
     },
 

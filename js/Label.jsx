@@ -2,9 +2,7 @@
 
 var React = require("react");
 
-var NONE = 0;
-var ASC = 1;
-var DESC = 2;
+var ToggleConsts = require("./ToggleConsts.js");
 
 var Label = React.createClass({
 
@@ -12,13 +10,15 @@ var Label = React.createClass({
         label: React.PropTypes.string.isRequired,
         addHiddenLabel: React.PropTypes.func.isRequired,
         sortAsc: React.PropTypes.func.isRequired,
-        sortDesc: React.PropTypes.func.isRequired
+        sortDesc: React.PropTypes.func.isRequired,
+        clearAllSelectedSortToggles: React.PropTypes.func.isRequired
     },
 
     getInitialState: function() {
         return {
             highlightedLabel: false,
-            highlightedToggle: NONE,
+            highlightedToggle: ToggleConsts.NONE,
+            selectedToggle: ToggleConsts.NONE,
             hidden: false
         };
     },
@@ -37,19 +37,34 @@ var Label = React.createClass({
     },
 
     _onMouseOverAscToggle: function() {
-        this.setState({highlightedToggle: ASC});
+        this.setState({highlightedToggle: ToggleConsts.ASC});
     },
 
     _onMouseOverDescToggle: function() {
-        this.setState({highlightedToggle: DESC});
+        this.setState({highlightedToggle: ToggleConsts.DESC});
     },
 
     _onMouseOutSortToggle: function() {
-        this.setState({highlightedToggle: NONE});
+        this.setState({highlightedToggle: ToggleConsts.NONE});
+    },
+
+    _onClickAscToggle: function() {
+        this.props.clearAllSelectedSortToggles();
+        this.setState({selectedToggle: ToggleConsts.ASC});
+        this.props.sortAsc();
+    },
+
+    _onClickDescToggle: function() {
+        this.props.clearAllSelectedSortToggles();
+        this.setState({selectedToggle: ToggleConsts.DESC});
+        this.props.sortDesc();
     },
 
     _getToggleClassNames: function(toggle) {
-        return "sortToggle" + (this.state.highlightedToggle === toggle ? " highlightedToggle" : "");
+        return "sortToggle" +
+             (this.state.selectedToggle === toggle ||
+              this.state.highlightedToggle === toggle ?
+              " highlightedToggle" : "");
     },
 
     render: function() {
@@ -62,17 +77,17 @@ var Label = React.createClass({
                     {this.props.label}
                 </span>
                 <span ref="sortDesc"
-                      className={this._getToggleClassNames(DESC)}
+                      className={this._getToggleClassNames(ToggleConsts.DESC)}
                       onMouseOver={this._onMouseOverDescToggle}
                       onMouseOut={this._onMouseOutSortToggle}
-                      onClick={this.props.sortDesc}>
+                      onClick={this._onClickDescToggle}>
                     <i className="fa fa-caret-up"></i>
                 </span>
                 <span ref="sortAsc"
-                      className={this._getToggleClassNames(ASC)}
+                      className={this._getToggleClassNames(ToggleConsts.ASC)}
                       onMouseOver={this._onMouseOverAscToggle}
                       onMouseOut={this._onMouseOutSortToggle}
-                      onClick={this.props.sortAsc}>
+                      onClick={this._onClickAscToggle}>
                     <i className="fa fa-caret-down"></i>
                 </span>
             </div>
