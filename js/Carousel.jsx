@@ -40,13 +40,46 @@ var Carousel = React.createClass({
     },
 
     sortAsc: function(label) {
+        this._sort(label, true);
     },
 
     sortDesc: function(label) {
+        this._sort(label, false);
     },
 
-    _sort: function(comp) {
+    _sort: function(label, isAsc) {
+        var firstItem = this.refs.itemsScrollPane.refs[0];
+        if (!firstItem) return;
+        var comp = this._getCompFromItem(firstItem, label);
+        if (isAsc) {
+            var oldComp = comp;
+            comp = function(a, b) {
+                return -1 * oldComp(a, b);
+            };
+        }
+        this.state.items.sort(comp);
+        this.setState({items: this.state.items});
+    },
 
+    _getCompFromItem: function(item, label) {
+        var valueType = item.getValueType(label);
+        var simpleComp = function(a, b) {
+            return a[label] - b[label];
+        };
+        if (valueType === "string") {
+            return function(a, b) {
+                return a[label].localeCompare(b[label]);
+            };
+        } else if (valueType === "wUnits") {
+            return function(a, b) {
+                var ax = a[label].split(" ");
+                var bx = b[label].split(" ");
+                return parseFloat(ax[0]) - parseFloat(bx[0]);
+            }
+        } else if (valueType === "number") {
+            return simpleComp;
+        }
+        return simpleComp;
     },
 
     _getItems: function() {
@@ -69,6 +102,7 @@ var Carousel = React.createClass({
                     sortAsc={this.sortAsc}
                     sortDesc={this.sortDesc} />
                 <ItemsScrollPane
+                    ref="itemsScrollPane"
                     items={this._getItems()}
                     hiddenLabels={this.state.hiddenLabels} />
             </div>

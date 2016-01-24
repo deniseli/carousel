@@ -15,6 +15,7 @@ var ItemsScrollPane = React.createClass({
         var hiddenLabels = this ? this.props.hiddenLabels : [];
         return this.props.items.map(function(item, i) {
             return <ItemPane
+                       ref={i}
                        key={i}
                        item={item}
                        hiddenLabels={hiddenLabels} />;

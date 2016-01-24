@@ -27,7 +27,9 @@ var ItemPane = React.createClass({
         });
     },
 
-    _getValueType: function(value) {
+    /** @return {string} string, wUnits, or number */
+    getValueType: function(label) {
+        var value = this.props.item[label];
         var type = typeof value;
 
         // Check split for units
@@ -46,12 +48,12 @@ var ItemPane = React.createClass({
     _genValueElems: function() {
         var item = this.props.item;
         var elems = [];
-        for (var key in item) {
-            if (this.props.hiddenLabels.indexOf(key) !== -1) continue;
-            var className = "itemValue row " + this._getValueType(item[key]);
+        for (var label in item) {
+            if (this.props.hiddenLabels.indexOf(label) !== -1) continue;
+            var className = "itemValue row " + this.getValueType(label);
             elems.push(
-                <div key={key} className={className}>
-                    {item[key]}
+                <div key={label} className={className}>
+                    {item[label]}
                 </div>
             );
         }
