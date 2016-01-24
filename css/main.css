@@ -6,7 +6,6 @@ html, body {
 body {
     background-color: #002b36;
     font-family: monaco;
-    font-weight: 800;
     margin: 0;
 }
 
@@ -48,7 +47,7 @@ h1 {
 }
 
 .itemPane {
-    background-color: #002b36;
+    background-color: #002028;
     display: inline-block;
     border: 1px solid #678CB1;
     border-radius: 12px;
@@ -87,7 +86,7 @@ h1 {
 }
 
 .highlightedItem {
-    background-color: #073642;
+    background-color: #002b36;
 }
 
 .sortToggle {
